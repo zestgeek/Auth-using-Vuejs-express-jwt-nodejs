@@ -1,6 +1,6 @@
-# projectvue
+# Auth Ui-VUEjs
 
-> A Vue.js project
+> Login and signup form using Vue.js and bootstrap-vue
 
 ## Build Setup
 
