@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "",
+  "proxy": "http://localhost:3003/",
   "private": true,
   "scripts": {
     "client": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,7 +11,7 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "npm start --prefix ./api",
-    "prod": "npm run build && cpx \"dist/**/*.*\" \"api/dist\"  && NODE_ENV=production PORT=3000 npm run server",
+    "prod": "npm run build && cpx \"dist/**/*.*\" \"api/dist\"  && NODE_ENV=production PORT=3003 npm run server",
     
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
