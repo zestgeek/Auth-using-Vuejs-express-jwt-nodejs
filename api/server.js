@@ -1,5 +1,6 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var path = require('path')
 var app = express();
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/loginapi',{  useMongoClient: true});
@@ -18,7 +19,8 @@ app.set('superSecret',config.secret);
 var port = process.env.PORT || 3003;
 
 var router = express.Router();
-app.use(express.static('dist'));
+
+app.use('/', express.static(path.join(__dirname, 'dist')))
 
 router.route('/register/')
 	.post(function(req, res) {
