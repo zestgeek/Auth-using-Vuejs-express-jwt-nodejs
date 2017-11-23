@@ -19,9 +19,7 @@ var port = process.env.PORT || 3003;
 
 var router = express.Router();
 app.use(express.static('dist'));
-app.get('/*', function(req, res){
-  res.sendFile('/dist/index.html' ,{root:__dirname});
-});
+
 router.route('/register/')
 	.post(function(req, res) {
 		var login = new Login();
@@ -99,6 +97,8 @@ router.route('/result')
             res.json(logins);
         });
  	});
-
+app.get('/*', function(req, res){
+  res.sendFile('/dist/index.html' ,{root:__dirname});
+});
 app.use('/api',router);
 app.listen(port);
