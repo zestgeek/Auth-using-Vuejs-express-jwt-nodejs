@@ -97,8 +97,9 @@ router.route('/result')
             res.json(logins);
         });
  	});
+
+app.use('/api',router);
 app.get('/*', function(req, res){
   res.sendFile('/dist/index.html' ,{root:__dirname});
 });
-app.use('/api',router);
 app.listen(port);
