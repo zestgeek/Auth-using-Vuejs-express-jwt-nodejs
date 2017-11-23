@@ -21,20 +21,32 @@ var port = process.env.PORT || 3003;
 var router = express.Router();
 
 app.use(express.static(path.join(__dirname, 'dist')))
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 router.route('/register/')
 	.post(function(req, res) {
+		console.log(req.body)
 		var login = new Login();
 		Login.findOne({"username": req.body.username}, function(err, user_data){
-			if(user_data)
+			if(err){
+				console.log(err)
+			}
+			if(user_data){
 				return res.json({
 					status : 409,
 					message : "User already exist"
 				});
+			}
+			console.log(req.body, 44)
 			login.username = req.body.username;
 			login.password = req.body.password;
 			login.confirm_password = req.body.confirm_password;
 			login.email	   = req.body.email;
+			console.log(login ,49)
 			login.save(function(err, login_data){
 				if(err)
 					return res.status(400).send(err);
@@ -50,7 +62,7 @@ router.route('/login')
 	.post(function(req, res){
 		Login.findOne({"username": req.body.username, "password": req.body.password}, function(err, user_data){
 			if(err || !user_data){
-				return res.json({
+				return res.status(401).json({
 					status : 401,
 					message : "Invalid username and password.",
 				});

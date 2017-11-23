@@ -5,7 +5,7 @@
     <h1 style="text-align:center; margin-bottom:20px">Login</h1>
       <b-form-group id="exampleInputGroup1">
         <b-form-input id="exampleInput1"
-                      type="text" v-model="form.name" required
+                      type="text" v-model="form.username" required
                       placeholder="Username"
         ></b-form-input>
       </b-form-group>
@@ -20,7 +20,7 @@
         <b-form-checkbox v-model="form.checked" id="exampleInput4">
           Check me out
         </b-form-checkbox>
-        <router-link to="signup" style="float:right">Dont have an account?</router-link>
+        <router-link to="signup" style="float:right">signup?</router-link>
       </b-form-group>
       <b-button type="submit" variant="primary" style="width:50%">Submit</b-button>
       <b-button type="reset" variant="secondary" style="width:48%">Reset</b-button>
@@ -33,37 +33,31 @@ import axios from 'axios';
 export default {
   data () {
     return {
-      form: [
-      {
-        username:'',
-        password:''
-      }
-    ]
-      
+        form: {
+        username: '',
+        password: '',
+      },
     }
-  },
-  created() {
-    axios.get(`http://localhost:3001/api/login`)
-    .then(response => {
-      // JSON responses are automatically parsed.
-      this.login = response.data
-    })
-    .catch(e => {
-      console.log(e)
-    })
-
-    
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
+      // this.$router.push('/home')
+    axios.post(`http://localhost:3003/api/login`, this.form)
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.form = response.data
+      sessionStorage.setItem('token',response.data.token);
       this.$router.push('/home')
+    })
+    .catch(e => {
+      console.log(e)
+    })
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
   font-weight: normal;
@@ -71,7 +65,7 @@ h1, h2 {
 ul {
   list-style-type: none;
   padding: 0;
-}
+}   
 li {
   display: inline-block;
   margin: 0 10px;
@@ -83,10 +77,6 @@ a{
   width: 400px;
   
 }
-.main{
-  background-color:red
-}
-body{
-  background-color:
-}
+
+
 </style>

@@ -4,7 +4,7 @@
     <h1 style="text-align:center; margin-bottom:20px">Signup</h1>
       <b-form-group id="exampleInputGroup1">
         <b-form-input id="exampleInput1"
-                      type="text" v-model="form.name" required
+                      type="text" v-model="form.username" required
                       placeholder="Name"
         ></b-form-input>
       </b-form-group>
@@ -22,15 +22,30 @@
                       placeholder="Password"
         ></b-form-input>
       </b-form-group>
+      <b-form-group id="exampleInputGroup2" >
+        <b-form-input id="exampleInput2"
+                      type="password" v-model="form.confirm_password" required
+                      placeholder="Confirm_Password"
+        ></b-form-input>
+      </b-form-group>
 
         
       <b-form-group id="exampleGroup4">
         <b-form-checkbox v-model="form.checked" id="exampleInput4">
           Check me out
         </b-form-checkbox>
+        <a style="float:right" href="/">login?</a>
       </b-form-group>
-      <b-button type="submit" variant="primary" style="width:50%">Submit</b-button>
-      <b-button type="reset" variant="secondary" style="width:48%">Reset</b-button>
+      
+      <b-button  type="submit" variant="primary" style="width:100%">Submit</b-button>
+      <b-modal id="modalsm" style="text-align:center" ref="modal" size="sm" hide-footer>
+      <div style="color:#28a745; font-size:20px">
+      <b>Register Successfully!</b>
+      </div>
+      <b-btn class="mt-3" variant="outline-success" style="float:right" @click="onClick">Login</b-btn>
+    </b-modal>
+      
+      
     </b-form>
   </div>
 </template>
@@ -43,17 +58,37 @@ export default {
     return {
       form: {
         email: '',
-        name: '',
-        password: ''
+        username: '',
+        password: '',
+        confirm_password:''
       },
-      foods: [
-        { text: 'Select One', value: null },
-        'Carrots', 'Beans', 'Tomatoes', 'Corn'
-      ]
+     
     }
   },
-  created() {
-    axios.get(`/api/register`)
+  
+  methods: {
+    onSubmit (evt) {
+      evt.preventDefault()
+    axios.post(`http://localhost:3003/api/register`, this.form)
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.form = response.data;
+      if(this.form.status === 200)
+      this.$refs.modal.show()
+    })
+    .catch(e => {
+      console.log(e)
+    })
+    },
+    onClick(e){
+      e.preventDefault();
+      this.$router.push('/')
+    }
+  }
+  /*created(evt) {
+  console.log(evt)
+    evt.preventDefault()
+    axios.post(`http://localhost:3003/api/register`, this.form)
     .then(response => {
       // JSON responses are automatically parsed.
       this.form = response.data
@@ -63,13 +98,7 @@ export default {
     })
 
     
-  },
-  methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
-      this.$router.push('/home') 
-    }
-  }
+  },*/
 }
 </script>
 
@@ -77,8 +106,8 @@ export default {
 <style scoped>
 
 
-a {
-  color: #42b983;
+a{
+  text-decoration:none;
 }
 .container{
   width: 400px;
