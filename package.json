@@ -12,13 +12,13 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "npm start --prefix ./api",
     "prod": "npm run build && cpx \"dist/**/*.*\" \"api/dist\"  && NODE_ENV=production PORT=3003 npm run server",
-    
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.2.0",
     "vue": "^2.5.2",

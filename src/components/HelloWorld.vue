@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <b-form @submit="onSubmit" style="width:450px; margin:auto; margin-top:120px; padding:50px; background-color:white">
+    <b-form @submit="onSubmit" style="width:450px; margin:auto; margin-top:120px; padding:50px; background-color:#efebeb">
     <h1 style="text-align:center; margin-bottom:20px">Login</h1>
       <b-form-group id="exampleInputGroup1">
         <b-form-input id="exampleInput1"
@@ -29,39 +29,35 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data () {
     return {
       form: [
       {
-        username:'pratham',
-        password:'12345'
-      },
-      {
-        username:'lovetrivedi',
-        password:'0987'
-      },
-      {
-        username:'nishant',
-        password:'123'
-      },
-      {
-        username:'vaishnavi',
-        password:'vaishnavi'
-      },
-      {
-        username:'nancy',
-        password:'nancy'
-      },
-      ]
+        username:'',
+        password:''
+      }
+    ]
       
     }
+  },
+  created() {
+    axios.get(`http://localhost:3001/api/login`)
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.login = response.data
+    })
+    .catch(e => {
+      console.log(e)
+    })
+
+    
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      this.$router.push('/home') 
-      alert(JSON.stringify(this.form))
+      this.$router.push('/home')
     }
   }
 }

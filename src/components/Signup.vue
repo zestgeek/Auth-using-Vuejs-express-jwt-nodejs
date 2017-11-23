@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" style="width:450px; margin:auto; margin-top:120px; padding:50px; background-color:white">
+    <b-form @submit="onSubmit" style="width:450px; margin:auto; margin-top:120px; padding:50px; background-color:#efebeb">
     <h1 style="text-align:center; margin-bottom:20px">Signup</h1>
       <b-form-group id="exampleInputGroup1">
         <b-form-input id="exampleInput1"
@@ -37,6 +37,7 @@
   
 
 <script>
+import axios from 'axios';
 export default {
   data () {
     return {
@@ -51,29 +52,31 @@ export default {
       ]
     }
   },
+  created() {
+    axios.get(`/api/register`)
+    .then(response => {
+      // JSON responses are automatically parsed.
+      this.form = response.data
+    })
+    .catch(e => {
+      console.log(e)
+    })
+
+    
+  },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      alert(JSON.stringify(this.form))
       this.$router.push('/home') 
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+
+
 a {
   color: #42b983;
 }
@@ -81,7 +84,5 @@ a {
   width: 400px;
   margin-top:100px
 }
-body{
-  background-color:
-}
+
 </style>
