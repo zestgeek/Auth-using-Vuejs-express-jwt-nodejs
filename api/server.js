@@ -20,7 +20,7 @@ var port = process.env.PORT || 3003;
 
 var router = express.Router();
 
-app.use('/', express.static(path.join(__dirname, 'dist')))
+app.use(express.static(path.join(__dirname, 'dist')))
 
 router.route('/register/')
 	.post(function(req, res) {
