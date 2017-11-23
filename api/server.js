@@ -1,5 +1,6 @@
 var express = require('express');
 var jwt = require('jsonwebtoken');
+var path = require('path')
 var app = express();
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/loginapi',{  useMongoClient: true});
@@ -18,10 +19,9 @@ app.set('superSecret',config.secret);
 var port = process.env.PORT || 3003;
 
 var router = express.Router();
-app.use(express.static('dist'));
-app.get('/*', function(req, res){
-  res.sendFile('/dist/index.html' ,{root:__dirname});
-});
+
+app.use(express.static(path.join(__dirname, 'dist')))
+
 router.route('/register/')
 	.post(function(req, res) {
 		var login = new Login();
@@ -101,4 +101,7 @@ router.route('/result')
  	});
 
 app.use('/api',router);
+app.get('/*', function(req, res){
+  res.sendFile('/dist/index.html' ,{root:__dirname});
+});
 app.listen(port);
